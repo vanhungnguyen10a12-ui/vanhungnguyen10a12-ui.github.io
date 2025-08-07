@@ -1,7 +1,6 @@
 import './globals.css';
 import { Inter } from 'next/font/google';
 
-// Sử dụng cách cài đặt font đơn giản hơn
 const inter = Inter({ subsets: ['latin', 'vietnamese'] });
 
 export const metadata = {
@@ -13,7 +12,6 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  // Gán class font trực tiếp vào thẻ body
   return (
     <html lang="vi">
       <body className={inter.className}>
