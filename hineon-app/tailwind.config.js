@@ -1,8 +1,4 @@
-// File: tailwind.config.js
-
 /** @type {import('tailwindcss').Config} */
-const { fontFamily } = require('tailwindcss/defaultTheme');
-
 module.exports = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -11,9 +7,7 @@ module.exports = {
   ],
   theme: {
     extend: {
-      fontFamily: {
-        sans: ['var(--font-inter)', ...fontFamily.sans],
-      },
+      // Giữ lại phần màu sắc, nó an toàn và không gây lỗi.
       colors: {
         'hineon-blue': {
           DEFAULT: '#00529B',
