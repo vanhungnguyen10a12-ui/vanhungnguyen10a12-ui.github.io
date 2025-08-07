@@ -1,29 +1,25 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { db } from '../lib/firebase'; // Import db từ file cấu hình
+import { db } from '../lib/firebase';
 import { doc, getDoc, setDoc, updateDoc, increment } from "firebase/firestore";
 
 function ProductCard({ product }) {
   const [likes, setLikes] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Sử dụng useEffect để lấy dữ liệu lượt thích từ Firestore khi component được tải
   useEffect(() => {
     if (!db || !product?.id) {
-      console.error("Firestore chưa được khởi tạo hoặc product.id không tồn tại.");
       setIsLoading(false);
       return;
     }
-
+    const productRef = doc(db, 'products', product.id);
     const fetchLikes = async () => {
-      const productRef = doc(db, 'products', product.id);
       try {
         const docSnap = await getDoc(productRef);
         if (docSnap.exists()) {
           setLikes(docSnap.data().likes || 0);
         } else {
-          // Nếu sản phẩm chưa có trong DB, tạo mới với 0 lượt thích
           await setDoc(productRef, { likes: 0, name: product.name });
           setLikes(0);
         }
@@ -32,19 +28,14 @@ function ProductCard({ product }) {
       }
       setIsLoading(false);
     };
-
     fetchLikes();
   }, [product.id, product.name]);
 
-  // Hàm xử lý khi người dùng nhấn nút Thích
   const handleLike = async () => {
     if (!db) return;
     const productRef = doc(db, 'products', product.id);
     try {
-      // Tăng giá trị 'likes' lên 1 một cách an toàn
-      await updateDoc(productRef, {
-        likes: increment(1)
-      });
+      await updateDoc(productRef, { likes: increment(1) });
       setLikes(prevLikes => prevLikes + 1);
     } catch (e) {
       console.error("Lỗi khi cập nhật lượt thích:", e);
@@ -52,29 +43,38 @@ function ProductCard({ product }) {
   };
 
   return (
-    <div className="bg-white rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105">
-      <img src={product.imageUrl} alt={product.name} className="w-full h-56 object-cover" />
+    <div className="group overflow-hidden rounded-lg bg-white shadow-md transition-shadow duration-300 hover:shadow-xl">
+      <div className="relative overflow-hidden">
+        <img 
+          src={product.imageUrl} 
+          alt={product.name} 
+          className="h-60 w-full object-cover transition-transform duration-500 group-hover:scale-110"
+          // Thêm fallback image
+          onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/600x400/e2e8f0/334155?text=Image+Error'; }}
+        />
+      </div>
       <div className="p-6">
-        <h3 className="text-xl font-bold text-gray-800 mb-2">{product.name}</h3>
-        <p className="text-gray-600 mb-4">{product.description}</p>
-        <div className="flex justify-between items-center mt-4">
-          <button
-            onClick={handleLike}
-            disabled={isLoading || !db}
-            className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition-colors flex items-center gap-2 disabled:bg-gray-400"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.562 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
-            </svg>
-            Thích
-          </button>
-          {isLoading ? (
-            <div className="text-gray-500">Đang tải...</div>
-          ) : (
-            <div className="text-lg font-bold text-gray-700">
-              {likes} ❤️
-            </div>
-          )}
+        <h3 className="text-lg font-bold text-neutral-900">{product.name}</h3>
+        <p className="mt-2 h-12 text-sm text-gray-600">{product.description}</p>
+        <div className="mt-4 flex items-center justify-between">
+           <p className="text-xl font-bold text-hineon-blue">
+              {product.price ? `${product.price.toLocaleString('vi-VN')} ₫` : 'Liên hệ'}
+           </p>
+          <div className="flex items-center gap-3">
+             {isLoading ? (
+              <div className="h-8 w-16 animate-pulse rounded-full bg-gray-200"></div>
+            ) : (
+              <button
+                onClick={handleLike}
+                className="flex items-center gap-1 rounded-full border border-gray-300 px-3 py-1 text-sm text-gray-600 transition-colors hover:border-red-500 hover:bg-red-50 hover:text-red-600"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+                </svg>
+                <span>{likes}</span>
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>
