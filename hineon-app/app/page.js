@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import ProductCard from '../../components/ProductCard';
-import Header from '../../components/Header'; // Import Header mới
+import ProductCard from '../components/ProductCard';
+import Header from '../components/Header'; // Import Header mới
 import { motion } from 'framer-motion';
 import { Zap, Smartphone, ShieldCheck } from 'lucide-react';
 
