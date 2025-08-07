@@ -1,12 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    // Quét các file ở thư mục gốc
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
- 
-    // Và cũng quét các file nếu chúng nằm trong thư mục `src`
     './src/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
@@ -27,5 +24,8 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  // QUAN TRỌNG: Thêm plugin này để sử dụng `aspect-ratio`
+  plugins: [
+    require('@tailwindcss/aspect-ratio'),
+  ],
 };
