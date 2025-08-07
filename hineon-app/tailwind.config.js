@@ -24,8 +24,6 @@ module.exports = {
       },
     },
   },
-  // QUAN TRỌNG: Thêm plugin này để sử dụng `aspect-ratio`
-  plugins: [
-    require('@tailwindcss/aspect-ratio'),
-  ],
+  // Đã xóa plugin gây lỗi ở đây.
+  plugins: [],
 };
