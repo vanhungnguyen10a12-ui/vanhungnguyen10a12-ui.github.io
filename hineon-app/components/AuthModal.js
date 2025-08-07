@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { createPortal } from 'react-dom'; // Import createPortal
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
@@ -19,7 +19,6 @@ export default function AuthModal() {
   const [loading, setLoading] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
-  // Đảm bảo component đã được mount ở phía client trước khi render portal
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -70,9 +69,9 @@ export default function AuthModal() {
     </AnimatePresence>
   );
 
-  // Chỉ render portal khi ở phía client
   if (isMounted) {
-    return createPortal(modalContent, document.getElementById('modal-root'));
+    // Sửa đích đến của Portal thành document.body
+    return createPortal(modalContent, document.body);
   }
 
   return null;

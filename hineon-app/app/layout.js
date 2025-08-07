@@ -16,8 +16,7 @@ export default function RootLayout({ children }) {
           </div>
           <AuthModal />
         </AuthProvider>
-        {/* Thêm thẻ div này để làm điểm đến cho Portal */}
-        <div id="modal-root"></div>
+        {/* Thẻ div#modal-root không còn cần thiết nữa */}
       </body>
     </html>
   );
