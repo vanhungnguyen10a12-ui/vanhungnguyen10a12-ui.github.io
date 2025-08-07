@@ -45,6 +45,7 @@ function ProductCard({ product, onCardClick }) {
       {/* Hiệu ứng viền gradient khi hover */}
       <div className="absolute -inset-0.5 rounded-xl bg-gradient-to-r from-hineon-blue to-hineon-blue-light opacity-0 transition-opacity duration-300 group-hover:opacity-75"></div>
       
+      {/* DIV BỊ THIẾU ĐÃ ĐƯỢC THÊM LẠI Ở ĐÂY */}
       <div className="relative flex flex-col rounded-lg bg-brand-dark-light p-1">
         <div className="relative h-60 w-full overflow-hidden rounded-lg">
           <Image src={product.imageUrl} alt={product.name} fill sizes="33vw" className="object-cover transition-transform duration-500 group-hover:scale-105" />
