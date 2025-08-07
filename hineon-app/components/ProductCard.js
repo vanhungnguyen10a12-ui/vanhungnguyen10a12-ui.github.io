@@ -41,12 +41,10 @@ function ProductCard({ product }) {
 
   return (
     <a href="#" className="group relative flex flex-col overflow-hidden rounded-lg border border-neutral-200 bg-white transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
-      {/* Khung ảnh được cố định chiều cao, không cần plugin */}
       <div className="relative overflow-hidden bg-neutral-100">
         <img 
           src={product.imageUrl} 
           alt={product.name} 
-          // Cố định chiều cao và dùng object-cover để ảnh tự lấp đầy
           className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-105"
           onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/800x600/e2e8f0/334155?text=Image+Error'; }}
         />
@@ -84,3 +82,6 @@ function ProductCard({ product }) {
     </a>
   );
 }
+
+// DÒNG BỊ THIẾU ĐÃ ĐƯỢC THÊM LẠI Ở ĐÂY
+export default ProductCard;
