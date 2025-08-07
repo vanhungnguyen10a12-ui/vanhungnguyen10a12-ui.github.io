@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import ProductCard from '../../components/ProductCard';
-import ProductModal from '../../components/ProductModal'; // Import component mới
+import ProductCard from '../components/ProductCard';
+import ProductModal from '../components/ProductModal'; // Import component mới
 import { motion, AnimatePresence } from 'framer-motion'; // Import framer-motion
 
 // Dữ liệu sản phẩm không đổi
