@@ -6,21 +6,21 @@ const products = [
     id: 'led-bulb-01',
     name: 'LED Bulb Thông Minh',
     description: 'Ánh sáng dịu nhẹ, điều khiển qua app, tiết kiệm đến 80% điện năng.',
-    imageUrl: 'https://images.unsplash.com/photo-1588821323333-df33b647206d?q=80&w=800&auto=format&fit=crop',
+    imageUrl: 'https://i.postimg.cc/YCm4mQBj/z6862736383930-cbab8fb05140fbe373a5997345f53f90.jpg',
     price: 250000,
   },
   {
     id: 'led-strip-02',
     name: 'LED Dây 16 Triệu Màu',
     description: 'Linh hoạt, đa sắc màu, thổi bùng sức sống cho mọi không gian.',
-    imageUrl: 'https://images.unsplash.com/photo-1597232247968-428a1a3e4b39?q=80&w=800&auto=format&fit=crop',
+    imageUrl: 'https://i.postimg.cc/YCm4mQBj/z6862736383930-cbab8fb05140fbe373a5997345f53f90.jpg',
     price: 480000,
   },
   {
     id: 'led-panel-03',
     name: 'LED Panel Âm Trần',
     description: 'Thiết kế tinh tế, ánh sáng đều, giải pháp cho văn phòng hiện đại.',
-    imageUrl: 'https://images.unsplash.com/photo-1629429408210-d8a435352516?q=80&w=800&auto=format&fit=crop',
+    imageUrl: 'https://i.postimg.cc/YCm4mQBj/z6862736383930-cbab8fb05140fbe373a5997345f53f90.jpg',
     price: 790000,
   }
 ];
