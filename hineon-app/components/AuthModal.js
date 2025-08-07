@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom'; // Import createPortal
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
@@ -16,18 +17,20 @@ export default function AuthModal() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Đảm bảo component đã được mount ở phía client trước khi render portal
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
-
     try {
-      if (isLoginView) {
-        await signInWithEmailAndPassword(auth, email, password);
-      } else {
-        await createUserWithEmailAndPassword(auth, email, password);
-      }
+      if (isLoginView) { await signInWithEmailAndPassword(auth, email, password); } 
+      else { await createUserWithEmailAndPassword(auth, email, password); }
       closeAuthModal();
     } catch (err) {
       setError(err.message);
@@ -36,7 +39,7 @@ export default function AuthModal() {
     }
   };
 
-  return (
+  const modalContent = (
     <AnimatePresence>
       {isAuthModalOpen && (
         <motion.div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm" variants={backdropVariants} initial="hidden" animate="visible" exit="hidden" onClick={closeAuthModal}>
@@ -66,4 +69,11 @@ export default function AuthModal() {
       )}
     </AnimatePresence>
   );
+
+  // Chỉ render portal khi ở phía client
+  if (isMounted) {
+    return createPortal(modalContent, document.getElementById('modal-root'));
+  }
+
+  return null;
 }
