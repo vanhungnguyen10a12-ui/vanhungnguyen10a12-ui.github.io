@@ -1,9 +1,8 @@
-import ProductCard from '../components/ProductCard';
+import ProductCard from '../../components/ProductCard';
 
-// Dữ liệu sản phẩm mẫu.
 const products = [
   {
-    id: 'led-bulb-01', // ID phải là duy nhất và dạng chuỗi
+    id: 'led-bulb-01',
     name: 'LED Bulb Thông Minh',
     description: 'Ánh sáng dịu nhẹ, tiết kiệm đến 80% điện năng.',
     imageUrl: 'https://i.postimg.cc/YCm4mQBj/z6862736383930-cbab8fb05140fbe373a5997345f53f90.jpg'
@@ -24,10 +23,10 @@ const products = [
 
 export default function HomePage() {
   return (
-    <div className="bg-gray-100 min-h-screen">
-      <header className="bg-white shadow">
+    <div className="bg-slate-100 min-h-screen">
+      <header className="bg-white shadow-md">
         <div className="container mx-auto px-6 py-4">
-          <h1 className="text-3xl font-bold text-blue-800">HINEON</h1>
+          <h1 className="text-3xl font-bold text-hineon-blue">HINEON</h1>
         </div>
       </header>
       <main className="container mx-auto px-6 py-12">
@@ -38,6 +37,11 @@ export default function HomePage() {
           ))}
         </div>
       </main>
+       <footer className="bg-white mt-12 py-6">
+        <div className="container mx-auto text-center text-gray-600">
+          <p>&copy; 2024 HINEON. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
   );
 }
