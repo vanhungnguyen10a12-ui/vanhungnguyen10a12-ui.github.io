@@ -7,5 +7,5 @@ html {
 }
 
 body {
-  @apply bg-white text-neutral-800 antialiased;
+  @apply bg-brand-dark text-neutral-300 antialiased;
 }

@@ -2,59 +2,110 @@
 
 import React, { useState } from 'react';
 import ProductCard from '../components/ProductCard';
-import ProductModal from '../components/ProductModal'; // Import component mới
-import { motion, AnimatePresence } from 'framer-motion'; // Import framer-motion
+import ProductModal from '../components/ProductModal';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Zap, Smartphone, ShieldCheck } from 'lucide-react'; // Import icons
 
-// Dữ liệu sản phẩm không đổi
 const products = [
-    { id: 'led-bulb-01', name: 'LED Bulb Thông Minh', description: 'Ánh sáng dịu nhẹ, điều khiển qua app, tiết kiệm đến 80% điện năng.', imageUrl: 'https://images.unsplash.com/photo-1588821323333-df33b647206d?q=80&w=800&auto=format&fit=crop', price: 250000, tag: 'Bán chạy' },
-    { id: 'led-strip-02', name: 'LED Dây 16 Triệu Màu', description: 'Linh hoạt, đa sắc màu, thổi bùng sức sống cho mọi không gian.', imageUrl: 'https://images.unsplash.com/photo-1597232247968-428a1a3e4b39?q=80&w=800&auto=format&fit=crop', price: 480000, tag: 'Mới' },
-    { id: 'led-panel-03', name: 'LED Panel Âm Trần', description: 'Thiết kế tinh tế, ánh sáng đều, giải pháp cho văn phòng hiện đại.', imageUrl: 'https://images.unsplash.com/photo-1629429408210-d8a435352516?q=80&w=800&auto=format&fit=crop', price: 790000 }
+    { id: 'led-bulb-01', name: 'LED Bulb Aura+', description: 'Ánh sáng quang phổ, điều khiển qua app, tiết kiệm đến 80% điện năng.', imageUrl: 'https://i.postimg.cc/YCm4mQBj/z6862736383930-cbab8fb05140fbe373a5997345f53f90.jpg', price: 350000, tag: 'Smart' },
+    { id: 'led-strip-02', name: 'LED Dây NeonFlex', description: 'Uốn dẻo linh hoạt, 16 triệu màu, đồng bộ với âm nhạc.', imageUrl: 'https://i.postimg.cc/YCm4mQBj/z6862736383930-cbab8fb05140fbe373a5997345f53f90.jpg', price: 680000, tag: 'RGB' },
+    { id: 'led-panel-03', name: 'LED Panel SkyView', description: 'Mô phỏng ánh sáng tự nhiên, giảm mỏi mắt, cho văn phòng hiện đại.', imageUrl: 'https://i.postimg.cc/YCm4mQBj/z6862736383930-cbab8fb05140fbe373a5997345f53f90.jpg', price: 1290000, tag: 'Pro' }
 ];
 
-// Header và Footer không đổi
-const Header = () => ( <header className="sticky top-0 z-40 w-full border-b border-neutral-200/80 bg-white/80 backdrop-blur-md"> <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6"> <a href="#" className="text-2xl font-extrabold tracking-tight text-hineon-blue"> HINEON </a> <nav className="hidden items-center space-x-8 text-sm font-medium md:flex"> <a href="#" className="text-neutral-800 transition-colors hover:text-hineon-blue">Trang chủ</a> <a href="#products" className="text-neutral-800 transition-colors hover:text-hineon-blue">Sản phẩm</a> <a href="#" className="text-neutral-800 transition-colors hover:text-hineon-blue">Liên hệ</a> </nav> <a href="#" className="hidden sm:inline-block rounded-lg bg-hineon-blue px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-transform hover:scale-105 hover:bg-hineon-blue-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hineon-blue"> Nhận tư vấn </a> </div> </header> );
-const Footer = () => ( <footer className="w-full border-t border-neutral-200 bg-neutral-50"> <div className="container mx-auto grid grid-cols-2 gap-8 px-4 py-16 sm:px-6 md:grid-cols-4"> <div className="col-span-2 md:col-span-1"> <h3 className="text-xl font-bold text-hineon-blue">HINEON</h3> <p className="mt-2 text-sm text-gray-600">Thắp sáng tương lai của bạn.</p> </div> <div> <h4 className="font-semibold text-gray-900">Sản phẩm</h4> <ul className="mt-4 space-y-3 text-sm"> <li><a href="#" className="text-gray-600 hover:text-hineon-blue">Đèn LED Bulb</a></li> <li><a href="#" className="text-gray-600 hover:text-hineon-blue">Đèn LED Dây</a></li> <li><a href="#" className="text-gray-600 hover:text-hineon-blue">Đèn LED Panel</a></li> </ul> </div> <div> <h4 className="font-semibold text-gray-900">Công ty</h4> <ul className="mt-4 space-y-3 text-sm"> <li><a href="#" className="text-gray-600 hover:text-hineon-blue">Về chúng tôi</a></li> <li><a href="#" className="text-gray-600 hover:text-hineon-blue">Dự án</a></li> <li><a href="#" className="text-gray-600 hover:text-hineon-blue">Tuyển dụng</a></li> </ul> </div> <div className="col-span-2 md:col-span-1"> <h4 className="font-semibold text-gray-900">Đăng ký nhận tin</h4> <p className="mt-2 text-sm text-gray-600">Nhận thông tin về sản phẩm mới và các chương trình khuyến mãi.</p> <div className="mt-4 flex"> <input type="email" placeholder="Email của bạn" className="w-full rounded-l-md border-gray-300 px-3 py-2 text-sm shadow-sm" /> <button className="rounded-r-md bg-hineon-blue px-4 text-sm font-semibold text-white hover:bg-hineon-blue-dark">Đăng ký</button> </div> </div> </div> <div className="border-t border-neutral-200 py-8"> <p className="text-center text-sm text-gray-500">&copy; {new Date().getFullYear()} HINEON. All Rights Reserved.</p> </div> </footer> );
+const Header = () => ( <header className="sticky top-0 z-40 w-full border-b border-brand-dark-light/50 bg-brand-dark/80 backdrop-blur-lg"> <div className="container mx-auto flex h-20 items-center justify-between px-4 sm:px-6"> <a href="#" className="text-3xl font-extrabold tracking-tight text-white animate-glow"> HINEON </a> <nav className="hidden items-center space-x-8 text-sm font-medium md:flex"> <a href="#" className="text-neutral-300 transition-colors hover:text-hineon-blue-light">Trang chủ</a> <a href="#features" className="text-neutral-300 transition-colors hover:text-hineon-blue-light">Tính năng</a> <a href="#products" className="text-neutral-300 transition-colors hover:text-hineon-blue-light">Sản phẩm</a> </nav> <a href="#" className="hidden sm:inline-block rounded-lg bg-hineon-blue px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-hineon-blue/20 transition-all hover:scale-105 hover:bg-hineon-blue-light hover:text-brand-dark"> Liên hệ tư vấn </a> </div> </header> );
+const Footer = () => ( <footer className="w-full border-t border-brand-dark-light/50 bg-brand-dark"> <div className="container mx-auto px-4 py-8 sm:px-6"> <p className="text-center text-sm text-neutral-400">&copy; {new Date().getFullYear()} HINEON. Dẫn đầu công nghệ chiếu sáng.</p> </div> </footer> );
+
+// Component Section Tính năng Vượt trội MỚI
+const FeaturesSection = () => {
+    const features = [
+        { icon: Zap, title: "Tiết Kiệm Năng Lượng", description: "Công nghệ LED tiên tiến giúp giảm đến 80% chi phí điện năng so với đèn truyền thống." },
+        { icon: Smartphone, title: "Điều Khiển Thông Minh", description: "Dễ dàng điều khiển độ sáng, màu sắc và hẹn giờ qua ứng dụng di động tiện lợi." },
+        { icon: ShieldCheck, title: "Bền Bỉ Vượt Trội", description: "Tuổi thọ lên đến 50,000 giờ, hoạt động ổn định và an toàn trong mọi điều kiện." }
+    ];
+    return (
+        <section id="features" className="py-20 sm:py-24 bg-brand-dark-light">
+            <div className="container mx-auto px-4 sm:px-6">
+                <div className="mx-auto max-w-2xl text-center">
+                    <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">Công Nghệ Dẫn Lối</h2>
+                    <p className="mt-4 text-lg text-neutral-400">Trải nghiệm sự khác biệt với những tính năng ưu việt.</p>
+                </div>
+                <div className="mt-16 grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
+                    {features.map((feature, index) => (
+                        <motion.div 
+                            key={index}
+                            className="text-center"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: index * 0.2 }}
+                            viewport={{ once: true }}
+                        >
+                            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand-dark-lighter shadow-lg">
+                                <feature.icon className="h-8 w-8 text-hineon-blue-light" />
+                            </div>
+                            <h3 className="mt-6 text-xl font-semibold text-white">{feature.title}</h3>
+                            <p className="mt-2 text-base text-neutral-400">{feature.description}</p>
+                        </motion.div>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+};
+
 
 export default function HomePage() {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-  // Định nghĩa các variant cho animation của container
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1 // Mỗi item con sẽ xuất hiện cách nhau 0.1s
-      }
-    }
-  };
+  const containerVariants = { hidden: {}, visible: { transition: { staggerChildren: 0.15 } } };
 
   return (
     <>
       <Header />
       <main className="flex-1">
-        {/* Các section khác không đổi */}
-        <section className="relative bg-neutral-100"> <div className="container mx-auto grid items-center gap-8 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:py-32"> <div className="text-center lg:text-left"> <h1 className="text-4xl font-extrabold tracking-tight text-neutral-900 sm:text-5xl md:text-6xl"> <span className="block">Giải Pháp Chiếu Sáng</span> <span className="block text-hineon-blue">Đẳng Cấp & Tinh Tế</span> </h1> <p className="mx-auto mt-6 max-w-lg text-lg text-gray-600 lg:mx-0"> Khám phá các sản phẩm chiếu sáng LED hàng đầu, kết hợp giữa công nghệ hiện đại và thiết kế sang trọng. </p> <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center lg:justify-start"> <a href="#products" className="w-full sm:w-auto rounded-lg bg-hineon-blue px-6 py-3 text-base font-semibold text-white shadow-lg transition-transform hover:scale-105 hover:bg-hineon-blue-dark"> Xem sản phẩm </a> <a href="#" className="w-full sm:w-auto rounded-lg border border-neutral-300 bg-white px-6 py-3 text-base font-semibold text-neutral-800 shadow-lg transition-transform hover:scale-105"> Liên hệ </a> </div> </div> <div className="hidden lg:block"> <img src="https://images.unsplash.com/photo-1617362337269-e33a2b5a6d51?q=80&w=800&auto=format&fit=crop" alt="Modern lighting" className="rounded-2xl shadow-2xl" /> </div> </div> </section>
+        <section className="relative flex h-[calc(100vh-80px)] min-h-[600px] items-center justify-center overflow-hidden text-center">
+            <div className="absolute inset-0 z-0 bg-brand-dark">
+                {/* Có thể thêm ảnh nền hoặc video ở đây */}
+            </div>
+            <motion.div 
+                className="relative z-10 px-4"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+            >
+                <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-6xl md:text-7xl animate-glow">
+                  Thắp Sáng Tương Lai
+                </h1>
+                <p className="mx-auto mt-6 max-w-2xl text-lg text-neutral-300">
+                  Dẫn đầu công nghệ chiếu sáng LED. Hiện đại - Thông minh - Bền bỉ.
+                </p>
+                <div className="mt-10">
+                    <a href="#products" className="rounded-full bg-hineon-blue px-8 py-4 text-base font-semibold text-white shadow-2xl shadow-hineon-blue/30 transition-all hover:scale-105 hover:bg-hineon-blue-light hover:text-brand-dark">
+                        Khám phá sản phẩm
+                    </a>
+                </div>
+            </motion.div>
+        </section>
         
+        <FeaturesSection />
+
         <section id="products" className="py-20 sm:py-24">
            <div className="container mx-auto px-4 sm:px-6">
              <div className="mx-auto max-w-2xl text-center">
-                <h2 className="text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">Sản Phẩm Nổi Bật</h2>
-                <p className="mt-4 text-lg text-gray-600">Những giải pháp chiếu sáng được tin dùng và yêu thích nhất.</p>
+                <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">Bộ Sưu Tập Đèn LED</h2>
+                <p className="mt-4 text-lg text-neutral-400">Những thiết kế được chế tác để nâng tầm không gian sống của bạn.</p>
              </div>
             <motion.div 
-              className="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8"
+              className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3"
               variants={containerVariants}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }} // Animation chỉ chạy 1 lần khi 20% container vào màn hình
+              viewport={{ once: true, amount: 0.2 }}
             >
               {products.map((product) => (
                 <ProductCard 
                   key={product.id} 
                   product={product} 
-                  onCardClick={() => setSelectedProduct(product)} // Truyền hàm để mở modal
+                  onCardClick={() => setSelectedProduct(product)}
                 />
               ))}
             </motion.div>
@@ -63,12 +114,11 @@ export default function HomePage() {
       </main>
       <Footer />
 
-      {/* Render Modal nếu có sản phẩm được chọn */}
       <AnimatePresence>
         {selectedProduct && (
           <ProductModal 
             product={selectedProduct} 
-            onClose={() => setSelectedProduct(null)} // Truyền hàm để đóng modal
+            onClose={() => setSelectedProduct(null)}
           />
         )}
       </AnimatePresence>
