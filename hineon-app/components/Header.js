@@ -3,11 +3,10 @@
 import React from 'react';
 import Link from 'next/link';
 import { useAuth } from '../context/AuthContext';
-import { motion } from 'framer-motion';
 import { LogOut } from 'lucide-react';
 
 export default function Header() {
-    const { user, loading, openAuthModal, signOut } = useAuth();
+    const { user, loading, signOut } = useAuth();
 
     return (
         <header className="sticky top-0 z-40 w-full border-b border-brand-dark-light/50 bg-brand-dark/80 backdrop-blur-lg">
@@ -19,9 +18,8 @@ export default function Header() {
                     <Link href="/#products" className="text-neutral-300 transition-colors hover:text-hineon-blue-light">Sản phẩm</Link>
                 </nav>
                 <div className="flex items-center gap-4">
-                    {loading ? (
-                        <div className="h-10 w-24 animate-pulse rounded-lg bg-brand-dark-light"></div>
-                    ) : user ? (
+                    {loading ? ( <div className="h-10 w-24 animate-pulse rounded-lg bg-brand-dark-light"></div> ) 
+                    : user ? (
                         <div className="group relative">
                             <button className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-dark-lighter">
                                 <span className="font-bold text-hineon-blue-light">{user.email.charAt(0).toUpperCase()}</span>
@@ -36,9 +34,9 @@ export default function Header() {
                             </div>
                         </div>
                     ) : (
-                        <button onClick={openAuthModal} className="hidden sm:inline-block rounded-lg bg-hineon-blue px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-hineon-blue/20 transition-all hover:scale-105 hover:bg-hineon-blue-light hover:text-brand-dark">
+                        <Link href="/login" className="hidden sm:inline-block rounded-lg bg-hineon-blue px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-hineon-blue/20 transition-all hover:scale-105 hover:bg-hineon-blue-light hover:text-brand-dark">
                             Đăng nhập
-                        </button>
+                        </Link>
                     )}
                 </div>
             </div>
