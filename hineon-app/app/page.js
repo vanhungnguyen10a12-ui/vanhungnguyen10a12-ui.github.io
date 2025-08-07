@@ -1,4 +1,4 @@
-import ProductCard from '../../components/ProductCard';
+import ProductCard from '../components/ProductCard';
 
 // Dữ liệu sản phẩm mẫu.
 const products = [
