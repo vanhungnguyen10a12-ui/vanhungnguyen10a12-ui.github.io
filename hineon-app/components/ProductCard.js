@@ -30,7 +30,6 @@ function ProductCard({ product }) {
   }, [product.id, product.name]);
 
   const handleLike = async (e) => {
-    // Ngăn sự kiện click lan ra thẻ a bên ngoài
     e.preventDefault(); 
     if (!db) return;
     const productRef = doc(db, 'products', product.id);
@@ -42,17 +41,17 @@ function ProductCard({ product }) {
 
   return (
     <a href="#" className="group relative flex flex-col overflow-hidden rounded-lg border border-neutral-200 bg-white transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
-      {/* Khung ảnh với tỷ lệ cố định */}
-      <div className="aspect-w-4 aspect-h-3 bg-neutral-100">
+      {/* Khung ảnh được cố định chiều cao, không cần plugin */}
+      <div className="relative overflow-hidden bg-neutral-100">
         <img 
           src={product.imageUrl} 
           alt={product.name} 
-          className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+          // Cố định chiều cao và dùng object-cover để ảnh tự lấp đầy
+          className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-105"
           onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/800x600/e2e8f0/334155?text=Image+Error'; }}
         />
       </div>
 
-      {/* Tag sản phẩm */}
       {product.tag && (
         <div className="absolute top-3 left-3 rounded-full bg-hineon-blue px-3 py-1 text-xs font-bold text-white">
             {product.tag}
