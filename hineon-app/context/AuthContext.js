@@ -1,11 +1,8 @@
 'use client';
 
-import React, { createContext, useContext, useEffect, useState } of 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react'; // Sửa 'of' thành 'from'
 import { onAuthStateChanged, signOut as firebaseSignOut } from 'firebase/auth';
 import { auth } from '../lib/firebase';
-
-// QUAN TRỌNG: Thay đổi email này thành email admin của bạn
-const ADMIN_EMAIL = "admin@hineon.com";
 
 const AuthContext = createContext(null);
 
@@ -17,8 +14,6 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
-      // Kiểm tra xem email của người dùng có phải là email admin không
-      setIsAdmin(user ? user.email === ADMIN_EMAIL : false);
       setLoading(false);
     });
     return () => unsubscribe();
@@ -27,10 +22,9 @@ export const AuthProvider = ({ children }) => {
   const signOut = async () => {
     await firebaseSignOut(auth);
     setUser(null);
-    setIsAdmin(false);
   };
 
-  const value = { user, loading, isAdmin, signOut };
+  const value = { user, loading, signOut };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
