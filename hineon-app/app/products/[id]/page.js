@@ -1,8 +1,10 @@
 import { db } from '../../../lib/firebase';
 import { doc, getDoc, collection, getDocs } from 'firebase/firestore';
-import ProductDetailClient from '../../../components/ProductDetailClient'; // Import component client mới
+import ProductDetailClient from '../../../components/ProductDetailClient';
 
-// Hàm này chạy lúc build để báo cho Next.js biết cần tạo những trang nào
+// Dòng này cho phép Next.js tạo trang cho các sản phẩm được thêm vào sau khi build
+export const dynamicParams = true;
+
 export async function generateStaticParams() {
     try {
         const productsCollection = collection(db, 'products');
@@ -17,13 +19,11 @@ export async function generateStaticParams() {
     }
 }
 
-// Hàm này lấy dữ liệu cho một sản phẩm cụ thể
 async function getProductData(id) {
     try {
         const docRef = doc(db, "products", id);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-            // Chuyển đổi dữ liệu để có thể truyền từ Server sang Client Component
             return JSON.parse(JSON.stringify({ id: docSnap.id, ...docSnap.data() }));
         }
         return null;
@@ -33,10 +33,7 @@ async function getProductData(id) {
     }
 }
 
-// Component chính của trang, chạy ở server
 export default async function ProductDetailPage({ params }) {
     const product = await getProductData(params.id);
-
-    // Truyền dữ liệu đã lấy được xuống cho component client để hiển thị
     return <ProductDetailClient product={product} />;
 }
