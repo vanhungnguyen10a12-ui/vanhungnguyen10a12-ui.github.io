@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import Link from 'next/link'; // Import Link
+import Link from 'next/link';
 import { db } from '../lib/firebase';
 import { doc, onSnapshot, updateDoc, increment, setDoc } from "firebase/firestore";
 import { motion } from 'framer-motion';
