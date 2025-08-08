@@ -9,7 +9,22 @@ import { ChevronLeft } from 'lucide-react';
 import { useAuth } from '../../../context/AuthContext';
 import Header from '../../../components/Header';
 import { db } from '../../../lib/firebase';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, collection, getDocs } from 'firebase/firestore'; // Thêm collection, getDocs
+
+// Hàm này sẽ chạy lúc build để báo cho Next.js biết cần tạo những trang nào
+export async function generateStaticParams() {
+    try {
+        const productsCollection = collection(db, 'products');
+        const productSnapshot = await getDocs(productsCollection);
+        const paths = productSnapshot.docs.map(doc => ({
+            id: doc.id,
+        }));
+        return paths;
+    } catch (error) {
+        console.error("Lỗi khi tạo static params:", error);
+        return [];
+    }
+}
 
 const Footer = () => ( <footer className="w-full border-t border-brand-dark-light/50 bg-brand-dark"> <div className="container mx-auto px-4 py-8 sm:px-6"> <p className="text-center text-sm text-neutral-400">&copy; {new Date().getFullYear()} HINEON. Dẫn đầu công nghệ chiếu sáng.</p> </div> </footer> );
 
@@ -48,14 +63,7 @@ export default function ProductDetailPage({ params }) {
     if (loading) { return ( <div className="flex min-h-screen flex-col"><Header /><main className="flex-1 flex items-center justify-center"><div className="h-12 w-12 animate-spin rounded-full border-4 border-t-transparent border-hineon-blue"></div></main><Footer /></div> ); }
     if (!product) { return ( <div className="flex min-h-screen flex-col"><Header /><main className="flex-1 flex items-center justify-center"><div className="text-center"><h1 className="text-2xl font-bold text-white">Sản phẩm không tồn tại</h1><Link href="/" className="mt-4 inline-block text-hineon-blue-light hover:underline">Quay về trang chủ</Link></div></main><Footer /></div> ) }
 
-    // Cung cấp giá trị mặc định để tránh lỗi
-    const {
-        name = "Sản phẩm không tên",
-        description = "Không có mô tả.",
-        imageUrl = "https://placehold.co/1200x800/161B22/7DF9FF?text=HINEON",
-        price = 0,
-        tag
-    } = product;
+    const { name = "Sản phẩm không tên", description = "Không có mô tả.", imageUrl = "https://placehold.co/1200x800/161B22/7DF9FF?text=HINEON", price = 0, tag } = product;
 
     return (
         <div className="flex min-h-screen flex-col">
